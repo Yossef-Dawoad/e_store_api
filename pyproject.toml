@@ -8,6 +8,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.111.0"}
+psycopg = {extras = ["binary", "pool"], version = "^3.1.19"}
+sqlalchemy = "^2.0.30"
+pydantic = {extras = ["email"], version = "^2.7.1"}
 
 
 [build-system]
