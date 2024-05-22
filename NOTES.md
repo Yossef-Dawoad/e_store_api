@@ -18,10 +18,66 @@ poetry export -f requirements.txt --output requirements.txt
 docker-compose up --build
 
 ### shuting down docker-compose
+```bash
 docker-compose down -v
+```
+
+Ctrl+p, Ctrl+q will now turn interactive mode into daemon mode.  
+Ctrl+C (or Ctrl+\) should detach you from the container but it will kill the container because your main process is a bash.
+see this issue [here](https://stackoverflow.com/questions/25267372/correct-way-to-detach-from-a-container-without-stopping-it)
+
+
+### if you want run deatched docker containers
+```bash
+# show all existing Containers with there STATUS Created | UP
+docker ps -a
+
+## RE-Attach or Listen to logs
+docker-compose up
+# OR
+docker-compose logs 
+
+```
+
+## Generate powerful secrets
+openssl rand -hex 32
+
+### SQLAlchemy Knowladge
+ - `session.refresh` is set to expire the data then immediately get the latest data 
 
 ## Alembic Setup
 Remove the startup event from project/app/main.py since we no longer want the tables created at startup:
+
+
+## API Limiter
+```py
+## In app/__init__.py
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address) 
+
+
+from app.logs.logconfig import init_loggers
+
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+
+# init our logger
+init_loggers(logger_name="app-logs")
+log = logging.getLogger("app-logs")
+
+
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.get('/health-check')
+@limiter.limit("5/minute")
+def health_check(request: Request) -> dict:
+    return {'status': r'100% good'}
+
+```   
 
 ```py
 @app.on_event("startup")
@@ -187,3 +243,10 @@ async def add_song(song: SongCreate, session: AsyncSession = Depends(get_session
     await session.refresh(song)
     return song
 ```
+
+
+
+<!-- TODOS -->
+- [ ] Update migration email field should now be unqie
+- [ ] install pyjwt[crypto], python-multipart
+- [ ] poetry export -f requirements.txt --output requirements.txt

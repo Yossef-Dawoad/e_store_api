@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from e_store.users import router as user_router
 
 
 # # !TODO Remove when use alembic
@@ -11,17 +12,15 @@ from fastapi import FastAPI
 # descripe the api that will be created
 app = FastAPI(
     title="E-Commerce API",
-    description="This is a simple E-Commerce API for CRUD operations on products and orders.",
+    description="This is a Simple e-store API for CRUD operations on products and orders.",
     version="0.0.1",
     # lifespan=lifespan,
 )
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(user_router.router)
 
 
-@app.get("/hello/{name}")
-async def hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.get("/health-check")
+def health_check() -> dict:
+    return {"status": r"100% good"}

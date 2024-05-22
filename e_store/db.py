@@ -7,10 +7,11 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from e_store.config import get_settings
 
+settings = get_settings()
 
 # the engine is the starting point for all the SQLModel operations
 async_engine = create_async_engine(
-    url=get_settings.database_url,
+    url=settings.database_url,
     echo=True,
 )
 

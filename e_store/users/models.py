@@ -1,9 +1,12 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, AutoString
+from pydantic import EmailStr
 
 
 class UserBase(SQLModel):
-    name: str = Field(index=True)
-    email: str
+    name: str = Field(index=True, min_length=5)
+    email: EmailStr = Field(
+        unique=True, index=True, sa_type=AutoString
+    )  # Specify sa_type
 
 
 class User(UserBase, table=True):

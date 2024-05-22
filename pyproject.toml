@@ -15,7 +15,39 @@ sqlmodel = "^0.0.18"
 alembic = "^1.13.1"
 passlib = {extras = ["argon2"], version = "^1.7.4"}
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+ruff = "^0.1.13"
+httpx = "^0.25.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+extend-select = [
+    'C4',
+    "F",   # pyflakes
+    "E", # Errors
+    "W", # warnnings
+    "RUF", # Ruff-specific rules
+    "PERF", #PREFlint
+    "PL", # PYLINT
+    "UP",  # pyupgrade
+    'SIM', #sim for code simplification
+    'TCH', #tch for type checking
+    'F707', # Syntax error in forward annotation
+    'I001', # Import block is un-sorted or un-formatted
+    'I002', # Missing required import:
+    'COM', # FLAKE COMMA
+    'ANN', # flake8-annotations
+    'PYI052', #Need type annotation for
+    'DTZ', #FLAKE datetime
+    'ASYNC', #FLAKE ASYNC
+    'PLE1700'
+]
+show-fixes = true
+target-version = "py310"
+line-length = 88
+ignore = ['E501', 'SIM115', 'ANN101', "UP007", "E701"]
+extend-exclude = ['alembic']
