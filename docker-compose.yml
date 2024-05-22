@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 
 services:
 
@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     restart: always
-  
+
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -32,12 +32,11 @@ services:
       - "1025:1025"
     restart: unless-stopped
 
-
   app:
     container_name: e_store_app
-    build: 
+    build:
       context: .
-      dockerfile: e_store/Dockerfile             
+      dockerfile: e_store/Dockerfile
     volumes:
       - .:/app
     environment:
