@@ -15,5 +15,6 @@
 /docs/site/*
 .mypy_cache
 
-.venv
+**/**.venv
+**/**.env
 /poetry.toml
