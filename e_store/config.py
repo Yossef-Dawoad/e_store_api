@@ -1,4 +1,4 @@
-# import os 
+# import os
 # APP_ENV = os.getenv('APP_ENV', 'development')
 # DATABASE_USERNAME = os.getenv('DATABASE_USERNAME', 'postgres')
 # DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD', '<PASSWORD>')
@@ -9,11 +9,14 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     app_name: str = "e-store API"
-    database_url: str 
+    database_url: str
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
 
 @lru_cache()
-def get_settings():return Settings()
+def get_settings():
+    return Settings()
