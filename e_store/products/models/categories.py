@@ -1,4 +1,9 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from .products import Product, ProductPublic
 
 
 class CategoryBase(SQLModel):  # team
@@ -7,7 +12,7 @@ class CategoryBase(SQLModel):  # team
 
 class Category(CategoryBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    products: list["Product"] = Relationship(back_populates="category")  # type: ignore # noqa: F821
+    products: list["Product"] = Relationship(back_populates="category")
 
 
 class CategoryCreate(CategoryBase):
@@ -19,4 +24,4 @@ class CategoryPublic(CategoryBase):
 
 
 class CategoryPublicWithProducts(CategoryPublic):
-    products: list["ProductPublic"] = []  # type: ignore # noqa: RUF012, F821
+    products: list["ProductPublic"]

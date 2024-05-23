@@ -249,6 +249,7 @@ async def add_song(song: SongCreate, session: AsyncSession = Depends(get_session
 <!-- TODOS -->
 - [X] Update migration email field should now be unqie
 - [X] Update migration products & categories
+- [ ] Update migration cart & cartItems
 - [X] install pyjwt[crypto], python-multipart
 - [X] poetry export -f requirements.txt --output requirements.txt
 - [ ] set some constrains on the password field 

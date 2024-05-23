@@ -1,6 +1,11 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import Field, Relationship, SQLModel
 
-from e_store.products.models.categories import Category, CategoryPublic
+if TYPE_CHECKING:
+    from e_store.cart.models import CartItem
+
+    from .categories import Category, CategoryPublic
 
 
 class ProductBase(SQLModel):  # hero
@@ -16,7 +21,8 @@ class ProductBase(SQLModel):  # hero
 class Product(ProductBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
-    category: Category | None = Relationship(back_populates="products")
+    category: "Category" | None = Relationship(back_populates="products")
+    cart_items: list["CartItem"] | None = Relationship(back_populates="products")
 
 
 class ProductPublic(ProductBase):
@@ -36,4 +42,4 @@ class ProductUpdate(SQLModel):
 
 
 class ProductPublicWithCategory(ProductPublic):
-    category: CategoryPublic | None = None
+    category: "CategoryPublic" | None = None

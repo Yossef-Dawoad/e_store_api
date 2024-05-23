@@ -1,5 +1,10 @@
+from typing import TYPE_CHECKING
+
 from pydantic import EmailStr
-from sqlmodel import AutoString, Field, SQLModel
+from sqlmodel import AutoString, Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from e_store.cart.models import Cart
 
 
 class UserBase(SQLModel):
@@ -14,6 +19,8 @@ class UserBase(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str = Field()
+
+    cart: "Cart" | None = Relationship(back_populates="user")
 
 
 class UserCreate(UserBase):
