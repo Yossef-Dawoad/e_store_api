@@ -1,12 +1,11 @@
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel
-from sqlmodel import Field
+from sqlmodel import Field, SQLModel
 
 
-class SimpleIDModel(BaseModel):
+class SimpleIDModel(SQLModel):
     id: int
 
 
-class UUIDIDModel(BaseModel):
+class UUIDIDModel(SQLModel):
     id: UUID = Field(default_factory=uuid4)
