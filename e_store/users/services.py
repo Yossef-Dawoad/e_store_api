@@ -1,6 +1,7 @@
-from e_store.users.models import User, UserCreate
-from e_store.users.hashing import hash_password
 from sqlmodel.ext.asyncio.session import AsyncSession
+
+from e_store.users.hashing import hash_password
+from e_store.users.models import User, UserCreate
 
 
 async def create_new_user(
@@ -17,7 +18,7 @@ async def create_new_user(
     return new_user
 
 
-async def update_existing_user(user: User, session: AsyncSession):
+async def update_existing_user(user: User, session: AsyncSession) -> User:
     user_data = user.model_dump(exclude_unset=True)
     for key, value in user_data.items():
         setattr(user, key, value)

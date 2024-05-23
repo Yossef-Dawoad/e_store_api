@@ -2,6 +2,7 @@ import logging
 
 from fastapi import FastAPI
 
+from e_store.products import router as product_router
 from e_store.users import router as user_router
 from logs.log import init_loggers
 
@@ -25,6 +26,7 @@ app = FastAPI(
 
 
 app.include_router(user_router.router)
+app.include_router(product_router.router)
 
 
 @app.get("/health-check")

@@ -66,7 +66,7 @@ async def update_user(  # noqa: ANN201
     return db_user
 
 
-@router.delete("/{user_id}")
+@router.delete("/{user_id}", status_code=204)
 async def delete_user(  # noqa: ANN201
     *,
     session: Annotated[AsyncSession, Depends(get_session)],
