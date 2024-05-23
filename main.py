@@ -1,6 +1,9 @@
-from fastapi import FastAPI
-from e_store.users import router as user_router
+import logging
 
+from fastapi import FastAPI
+
+from e_store.users import router as user_router
+from logs.log import init_loggers
 
 # # !TODO Remove when use alembic
 # @asynccontextmanager
@@ -8,6 +11,9 @@ from e_store.users import router as user_router
 #     await init_db()
 #     yield
 
+# init our logger
+init_loggers(logger_name="estore-logs")
+log = logging.getLogger("estore-logs")
 
 # descripe the api that will be created
 app = FastAPI(
