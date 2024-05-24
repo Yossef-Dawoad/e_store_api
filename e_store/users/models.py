@@ -5,6 +5,7 @@ from sqlmodel import AutoString, Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
     from e_store.cart.models import Cart
+    from e_store.orders.models import Order
 
 
 class UserBase(SQLModel):
@@ -21,6 +22,7 @@ class User(UserBase, table=True):
     hashed_password: str = Field()
 
     cart: "Cart" | None = Relationship(back_populates="user")
+    order: "Order" | None = Relationship(back_populates="user")
 
 
 class UserCreate(UserBase):

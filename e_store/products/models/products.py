@@ -4,6 +4,7 @@ from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
     from e_store.cart.models import CartItem
+    from e_store.orders.models import OrderDetail
 
     from .categories import Category, CategoryPublic
 
@@ -23,6 +24,7 @@ class Product(ProductBase, table=True):
 
     category: "Category" | None = Relationship(back_populates="products")
     cart_items: list["CartItem"] | None = Relationship(back_populates="products")
+    order_detail: "OrderDetail" | None = Relationship(back_populates="product")
 
 
 class ProductPublic(ProductBase):
