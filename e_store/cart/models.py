@@ -19,6 +19,14 @@ class CartItem(CartItemBase, SimpleIDModel, SimpleTimeStamp, table=True):
     products: list["Product"] = Relationship(back_populates="cart_items")
 
 
+class CartItemPublic(CartItemBase, SimpleTimeStamp):
+    products: list["Product"]
+
+
+class CartItemCreate(CartItemBase):
+    pass
+
+
 class CartBase(SQLModel):
     user_id: int | None = Field(default=None, foreign_key="user.id")
 
@@ -28,9 +36,8 @@ class Cart(CartBase, SimpleIDModel, SimpleTimeStamp, table=True):
     cart_items: CartItem | None = Relationship(back_populates="cart")
 
 
-class CartPublic(CartBase):
-    id: int
-    cart_items: list[CartItemBase]
+class CartPublic(CartBase, SimpleIDModel):
+    cart_items: list[CartItemPublic]
 
 
 class CartCreate(CartBase):
