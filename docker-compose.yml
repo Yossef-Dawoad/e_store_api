@@ -36,7 +36,9 @@ services:
 
   celery_worker:
     container_name: celery_worker
-    build: .
+    build:
+      context: .
+      dockerfile: e_store/Dockerfile
     command: celery -A celery_worker.celery worker --loglevel=info
     volumes:
       - .:/app
@@ -64,7 +66,9 @@ services:
 
   flower:
     container_name: flower
-    build: .
+    build:
+      context: .
+      dockerfile: e_store/Dockerfile
     command: celery -A celery_worker.celery flower --port=5555
     ports:
       - 5556:5555 # 5556 is accesable PORT
