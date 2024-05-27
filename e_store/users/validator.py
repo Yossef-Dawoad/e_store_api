@@ -1,7 +1,7 @@
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from e_store.users.models import User
+from e_store.users.models.user import User
 
 
 async def verify_email_exists(email: str, session: AsyncSession) -> User | None:

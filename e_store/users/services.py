@@ -1,7 +1,7 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from e_store.users.hashing import hash_password
-from e_store.users.models import User, UserCreate
+from e_store.users.models.user import User, UserCreate
 
 
 async def create_new_user(

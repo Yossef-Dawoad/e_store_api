@@ -7,8 +7,8 @@ from e_store.config import get_settings
 setting = get_settings()
 
 celery = Celery(__name__)
-celery.conf.brocker_url = setting.brocker_url
-celery.conf.result_backend = setting.brocker_url
+celery.conf.brocker_url = setting.celery_broker_url
+celery.conf.result_backend = setting.celery_broker_url
 
 
 @celery.task(name="create_task")

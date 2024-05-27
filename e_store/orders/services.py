@@ -4,7 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from e_store.cart.models import Cart, CartItem
 from e_store.orders.models import Order, OrderDetail, OrderPublic
 from e_store.shared.exceptions.http_400s import bad_400_excep
-from e_store.users.models import User
+from e_store.users.models.user import User
 
 
 async def create_new_order(session: AsyncSession) -> OrderPublic:

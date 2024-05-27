@@ -5,7 +5,7 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from e_store.db import get_session
-from e_store.users.models import User, UserCreate, UserPublic, UserUpdate
+from e_store.users.models.user import User, UserCreate, UserPublic, UserUpdate
 from e_store.users.services import create_new_user, update_existing_user
 from e_store.users.validator import verify_email_exists
 

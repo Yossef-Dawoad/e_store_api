@@ -8,8 +8,10 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from sqlmodel import SQLModel  # NEW
 
 from e_store.config import get_settings
+from e_store.users.models import User, Address  # noqa  # NEW
 from e_store.products.models import Category, Product  # noqa  # NEW
-from e_store.users.models import User  # noqa  # NEW
+from e_store.cart.models import Cart, CartItem  # noqa  # NEW
+from e_store.orders.models import Order, OrderDetail  # noqa  # NEW
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

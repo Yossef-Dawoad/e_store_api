@@ -17,6 +17,9 @@ poetry export -f requirements.txt --output requirements.txt
 ### building & running docker-compose
 docker-compose up --build
 
+### running only one service of docker-compose
+docker-compose up service-name(db)
+
 ### shuting down docker-compose
 ```bash
 docker-compose down -v

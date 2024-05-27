@@ -7,11 +7,11 @@ from e_store.cart.models import CartItem, CartPublic
 from e_store.cart.services import add_to_cart, get_all_cart_items
 from e_store.db import get_session
 
-router = APIRouter(tags="Carts", prefix="/cart")
+router = APIRouter(tags=["Carts"], prefix="/cart")
 
 
 # isn't that should be post ??!
-@router.get("/add", status_code=status.HTTP_201_CREATED)
+@router.post("/add", status_code=status.HTTP_201_CREATED)
 async def add_product_to_card(  # noqa: ANN201
     *,
     product_id: int,

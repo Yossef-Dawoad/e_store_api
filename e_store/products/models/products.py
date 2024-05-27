@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -14,6 +14,7 @@ class ProductBase(SQLModel):  # hero
     descriptions: str
     price: float
     quantity: int
+    # TODO add `image_url` as String
 
     # TODO handle ondelete op
     category_id: int | None = Field(default=None, foreign_key="category.id")
@@ -22,9 +23,9 @@ class ProductBase(SQLModel):  # hero
 class Product(ProductBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
-    category: "Category" | None = Relationship(back_populates="products")
-    cart_items: list["CartItem"] | None = Relationship(back_populates="products")
-    order_detail: "OrderDetail" | None = Relationship(back_populates="product")
+    category: Optional["Category"] = Relationship(back_populates="products")
+    cart_items: list["CartItem"] = Relationship(back_populates="products")
+    order_detail: Optional["OrderDetail"] = Relationship(back_populates="product")
 
 
 class ProductPublic(ProductBase):
@@ -44,4 +45,4 @@ class ProductUpdate(SQLModel):
 
 
 class ProductPublicWithCategory(ProductPublic):
-    category: "CategoryPublic" | None = None
+    category: Optional["CategoryPublic"] = None
