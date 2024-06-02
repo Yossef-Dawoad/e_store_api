@@ -52,6 +52,14 @@ openssl rand -hex 32
 Remove the startup event from project/app/main.py since we no longer want the tables created at startup:
 
 
+## Celery Command Explained
+```bash
+celery -A celery_worker.celery worker --loglevel=info --pool=prefork
+```
+`-A` for Application
+`--pool` celery support diffrent bools `prefork` laverage py multi processing
+
+
 ## API Limiter
 ```py
 ## In app/__init__.py
