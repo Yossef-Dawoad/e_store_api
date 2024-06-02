@@ -11,8 +11,9 @@ if TYPE_CHECKING:
 
 
 class UserBase(SQLModel):
-    name: str = Field(index=True, min_length=3)
+    username: str = Field(index=True, min_length=3)
     email: EmailStr = Field(unique=True, index=True, sa_type=String(255))
+    disabled: bool | None = None
 
 
 # TODO add SimpleTimeMixin to User

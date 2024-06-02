@@ -6,6 +6,8 @@ from e_store.orders.models import Order, OrderDetail, OrderPublic
 from e_store.shared.exceptions.http_400s import bad_400_excep
 from e_store.users.models.user import User
 
+from . import tasks
+
 
 async def create_new_order(session: AsyncSession) -> OrderPublic:
     # Getting User Info with his email
@@ -35,14 +37,12 @@ async def create_new_order(session: AsyncSession) -> OrderPublic:
     await session.refresh(new_order)
 
     session.add_all(
-        [
-            OrderDetail(order_id=new_order.id, product_id=item.products.id)
-            for item in cart_items
-        ],
+        [OrderDetail(order_id=new_order.id, product_id=item.products.id) for item in cart_items],
     )
     await session.commit()
 
     # TODO send an email
+    # tasks.send_invoice_email_task.delay("the email")
 
     # Clear items in the cart
     cart_items_stmt = select(CartItem).where(CartItem.cart_id == cart.id)

@@ -7,6 +7,7 @@ from pydantic import BaseModel, EmailStr
 from e_store.config import get_mail_settings, get_settings
 
 settings = get_settings()
+email_settrings = get_mail_settings()
 
 
 class EmailSchema(BaseModel):
@@ -14,7 +15,7 @@ class EmailSchema(BaseModel):
 
 
 conf = ConnectionConfig(
-    **get_mail_settings.model_dump(),
+    **email_settrings.model_dump(),
     TEMPLATE_FOLDER=Path(__file__).parent.joinpath("templates"),
 )
 

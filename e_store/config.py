@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     database_url: str
     celery_broker_url: str
 
+    secret_key: str
+    access_token_expire_minutes: int
+    algorithm: str
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
@@ -21,7 +25,7 @@ class MailSettings(BaseSettings):
     MAIL_SSL_TLS: bool
 
     MAIL_FROM: str
-    MAIL_DEBUG: bool
+    # MAIL_DEBUG: bool
     MAIL_FROM_NAME: str = "estore-app"
     USE_CREDENTIALS: bool  # set true for prod
 
