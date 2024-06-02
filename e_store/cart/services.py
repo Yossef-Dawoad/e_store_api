@@ -44,12 +44,16 @@ async def add_to_cart(product_id: int, session: AsyncSession) -> dict:
     return {"message": "Item Added to Cart"}
 
 
-async def get_all_cart_items(session: AsyncSession) -> CartPublic:
+async def get_all_cart_items(session: AsyncSession) -> CartPublic | None:
     # Getting User Info with his email
     user_stmt = select(User).where(User.email == "elon@tesla.com")
     user = (await session.exec(user_stmt)).first()
+    print("******" * 10)
+    print(user)
 
     # getting Cart Info if not Present will Create A New One
     cart_stmt = select(Cart).where(Cart.user_id == user.id)
     cart = (await session.exec(cart_stmt)).first()
+    print("******" * 10)
+    print(cart)
     return cart

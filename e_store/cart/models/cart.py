@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, ClassVar, Optional
 
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -30,7 +30,7 @@ class Cart(CartBase, SimpleIDModel, SimpleTimeStamp, table=True):
 
 
 class CartPublic(CartBase, SimpleTimeStamp):
-    cart_items: list["CartItem"]
+    cart_items: ClassVar[list["CartItem"]] = []
 
 
 class CartCreate(CartBase):

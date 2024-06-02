@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class UserBase(SQLModel):
-    name: str = Field(index=True, min_length=5)
+    name: str = Field(index=True, min_length=3)
     email: EmailStr = Field(unique=True, index=True, sa_type=String(255))
 
 
@@ -26,7 +26,7 @@ class User(UserBase, table=True):
 
 
 class UserCreate(UserBase):
-    password: str
+    password: str = Field(min_length=8)
 
 
 class UserPublic(UserBase):

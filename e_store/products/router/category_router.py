@@ -5,7 +5,7 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from e_store.db import get_session
-from e_store.products.models import Category, CategoryPublic
+from e_store.products.models import Category, CategoryCreate, CategoryPublic
 from e_store.products.services import create_new_category
 
 router = APIRouter(tags=["Products"], prefix="/products")
@@ -15,7 +15,7 @@ router = APIRouter(tags=["Products"], prefix="/products")
 async def create_category(  # noqa: ANN201
     *,
     session: Annotated[AsyncSession, Depends(get_session)],
-    category: Category,
+    category: CategoryCreate,
 ):
     db_category = await create_new_category(category, session)
     return db_category

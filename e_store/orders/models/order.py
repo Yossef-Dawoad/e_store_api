@@ -28,7 +28,7 @@ class OrderBase(SQLModel):
 
 class Order(OrderBase, SimpleIDModel, SimpleTimeStamp, table=True):
     order_items: list["OrderDetail"] = Relationship(back_populates="order")
-    user: Optional["User"] = Relationship(back_populates="order")
+    user: Optional["User"] = Relationship(back_populates="orders")
 
 
 class OrderPublic(OrderBase, SimpleIDModel, SimpleTimeStamp):
