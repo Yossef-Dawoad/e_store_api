@@ -6,12 +6,11 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from e_store.authentication.jwt import authenticate_user, create_access_tok, get_current_active_user, get_user
+from e_store.authentication.schemas import TokenPublic
 from e_store.db import get_session
 from e_store.shared.exceptions.http_400s import forbiden_403_excep, unauthorized_401_excep
 from e_store.users.models.user import User, UserCreate, UserPublic
 from e_store.users.services import create_new_user
-
-from .schemas import TokenPublic
 
 # TODO register the router in the app
 router = APIRouter(prefix="/auth", tags=["authentication"])

@@ -1,7 +1,6 @@
-import logging
-
 from fastapi import FastAPI
 
+from e_store.authentication.router import auth_router
 from e_store.cart.router import cart_router
 from e_store.orders.router import order_router
 from e_store.products.router import category_router, products_router
@@ -31,6 +30,7 @@ app.include_router(category_router)
 app.include_router(products_router)
 app.include_router(cart_router)
 app.include_router(order_router)
+app.include_router(auth_router)
 
 
 @app.get("/health-check")
