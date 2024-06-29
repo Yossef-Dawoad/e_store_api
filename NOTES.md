@@ -43,7 +43,16 @@ docker-compose logs
 ```
 
 ## Generate powerful secrets
-openssl rand -hex 32
+```BASH
+openssl rand -hex 32  
+```
+OR 
+```py 
+import secrets
+
+secrets.token_hex(16)
+```
+
 
 ### SQLAlchemy Knowladge
  - `session.refresh` is set to expire the data then immediately get the latest data 

@@ -1,3 +1,6 @@
+import enum
+import logging
+import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Annotated
 
@@ -18,11 +21,18 @@ from .schemas import TokenData
 settings = get_settings()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+log = logging.getLogger("estore-logs")
+
+
+# create an enum
+class TokenTypes(str, enum.Enum):
+    access = "access"
+    refresh = "refresh"
+
 
 async def get_user(session: AsyncSession, username: str) -> User | None:
     stmt = select(User).where(User.email == username)
-    user = (await session.exec(stmt)).first()
-    return user
+    return (await session.exec(stmt)).first()
 
 
 async def authenticate_user(session: AsyncSession, username: str, password: str) -> bool | User:
@@ -43,8 +53,16 @@ def create_access_tok(
         expires_delta = timedelta(minutes=settings.access_token_expire_minutes)
     expire = datetime.now(UTC) + expires_delta
     to_encode.update({"exp": expire})
-    encode_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=[settings.algorithm])
-    return encode_jwt
+    to_encode.update({"jti": str(uuid.uuid4())})  # JWT ID
+    return jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
+
+
+def decode_tok(token: dict) -> dict | None:
+    try:
+        return jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+    except jwt.PyJWTError as auth_err:
+        log.exception(auth_err)
+        return None
 
 
 async def get_current_user(
@@ -52,7 +70,7 @@ async def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
 ) -> User:
     try:
-        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+        payload = decode_tok(token)
         username = payload.get("sub")
         if username is None:
             raise unauthorized_401_excep(
@@ -60,11 +78,11 @@ async def get_current_user(
                 headers={"WWW-Authenticate": "Bearer"},
             )
         token_data = TokenData(username=username)
-    except InvalidTokenError:
+    except InvalidTokenError as err:
         raise unauthorized_401_excep(
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+        ) from err
     user = await get_user(session, username=token_data.username)
     if user is None:
         raise unauthorized_401_excep(
@@ -73,7 +91,7 @@ async def get_current_user(
     return user
 
 
-async def get_current_active_user(
+def get_current_active_user(
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> User:
     if current_user.disabled:

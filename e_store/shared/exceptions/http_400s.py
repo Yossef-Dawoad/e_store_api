@@ -16,6 +16,13 @@ def unauthorized_401_excep(detail: str, headers: str | None) -> HTTPException:
     )
 
 
+def forbiden_403_excep(detail: str) -> HTTPException:
+    return HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail=detail,
+    )
+
+
 def not_found_404_excep(detail: str) -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,

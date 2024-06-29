@@ -12,22 +12,6 @@ from e_store.users.validator import verify_email_exists
 router = APIRouter(tags=["Users"], prefix="/users")
 
 
-@router.post("/", response_model=UserPublic, status_code=201)
-async def create_user(  # noqa: ANN201
-    *,
-    session: Annotated[AsyncSession, Depends(get_session)],
-    user: UserCreate,
-):
-    user_exists = await verify_email_exists(user.email, session)
-    if user_exists:
-        raise HTTPException(
-            status_code=400,
-            detail="User with this mail Already exists.",
-        )
-    db_user = await create_new_user(user, session)
-    return db_user
-
-
 @router.get("/", response_model=list[UserPublic])
 async def read_users(  # noqa: ANN201
     *,

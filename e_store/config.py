@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     app_name: str = "e-store API"
     database_url: str
+    test_database_url: str
     celery_broker_url: str
 
     secret_key: str

@@ -16,7 +16,6 @@ from logs.log import init_loggers
 
 # init our logger
 init_loggers(logger_name="estore-logs")
-log = logging.getLogger("estore-logs")
 
 # descripe the api that will be created
 app = FastAPI(
