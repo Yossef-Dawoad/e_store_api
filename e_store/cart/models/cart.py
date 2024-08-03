@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import TYPE_CHECKING, ClassVar, Optional
 
 from sqlmodel import Field, Relationship, SQLModel
@@ -15,8 +16,9 @@ class CartItem(SQLModel, table=True):
     cart_id: int | None = Field(default=None, foreign_key="cart.id", primary_key=True)
     product_id: int | None = Field(default=None, foreign_key="product.id", primary_key=True)
     quantity: int = Field(default=0)
+    subtotal: Decimal = Field(default=0.0)
 
-    cart: "Cart" = Relationship(back_populates="cart_items")
+    cart: Optional["Cart"] = Relationship(back_populates="cart_items")
     products: list["Product"] = Relationship(back_populates="cart_items")
 
 
@@ -25,12 +27,18 @@ class CartBase(SQLModel):
 
 
 class Cart(CartBase, SimpleIDModel, SimpleTimeStamp, table=True):
+    total_amount: Decimal = Field(default=0.0, decimal_places=2)
+
     cart_items: list["CartItem"] = Relationship(back_populates="cart")
-    user: Optional["User"] = Relationship(back_populates="cart", sa_relationship_kwargs={"uselist": False})
+    user: Optional["User"] = Relationship(back_populates="cart")
 
 
 class CartPublic(CartBase, SimpleTimeStamp):
-    cart_items: ClassVar[list["CartItem"]] = []
+    id: int
+
+
+class CartPublicWithItems(CartPublic):
+    cart_items: list["CartItem"] = []  # noqa: RUF012
 
 
 class CartCreate(CartBase):

@@ -12,7 +12,6 @@ from e_store.shared.exceptions.http_400s import forbiden_403_excep, unauthorized
 from e_store.users.models.user import User, UserCreate, UserPublic
 from e_store.users.services import create_new_user
 
-# TODO register the router in the app
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
 

@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from e_store.cart.models import CartItem, CartPublic
+from e_store.cart.models.cart import CartPublicWithItems
 from e_store.cart.services import add_to_cart, get_all_cart_items
 from e_store.db import get_session
 
@@ -23,12 +24,14 @@ async def add_product_to_card(  # noqa: ANN201
     return await add_to_cart(product_id, session)
 
 
-@router.get("/", response_model=CartPublic)
-async def read_cart_items(  # noqa: ANN201
+@router.get("/", response_model=CartPublicWithItems)
+async def read_cart_items(
     *,
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
-    return await get_all_cart_items(session)
+    cart = await get_all_cart_items(session)
+    print(cart)
+    return cart
 
 
 @router.delete("/{cart_id}", status_code=status.HTTP_204_NO_CONTENT)

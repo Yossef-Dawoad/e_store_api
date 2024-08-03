@@ -1,7 +1,7 @@
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from e_store.cart.models.cart import Cart, CartItem, CartPublic
+from e_store.cart.models.cart import Cart, CartItem, CartPublic, CartPublicWithItems
 from e_store.products.models.products import Product
 from e_store.shared.exceptions.http_400s import not_found_404_excep
 from e_store.users.models.user import User
@@ -22,9 +22,9 @@ async def add_to_cart(product_id: int, session: AsyncSession) -> dict:
     # Get the Product By Id & Check if it exists and quanties more than one.
     product = await session.get(Product, product_id)
     if not product:
-        raise not_found_404_excep(detail=f"Product with {product_id} Not Fount.!")
+        raise not_found_404_excep(detail=f"Product with {product_id = } Not Fount...!")
     if product.quantity <= 0:
-        raise not_found_404_excep(detail=f"Product with {product_id} Is Out of Stock.!")
+        raise not_found_404_excep(detail=f"Product with {product_id = } Is Out of Stock...!")
 
     # Getting User Info By his email
     user_stmt = select(User).where(User.email == "elon@tesla.com")
@@ -40,11 +40,11 @@ async def add_to_cart(product_id: int, session: AsyncSession) -> dict:
         await session.commit()
         await session.refresh(cart)
 
-    await insert_into_itemCart(cart.id, product.id)
+    await insert_into_itemCart(cart.id, product.id, session)
     return {"message": "Item Added to Cart"}
 
 
-async def get_all_cart_items(session: AsyncSession) -> CartPublic | None:
+async def get_all_cart_items(session: AsyncSession) -> Cart:
     # Getting User Info with his email
     user_stmt = select(User).where(User.email == "elon@tesla.com")
     user = (await session.exec(user_stmt)).first()
@@ -56,4 +56,6 @@ async def get_all_cart_items(session: AsyncSession) -> CartPublic | None:
     cart = (await session.exec(cart_stmt)).first()
     print("******" * 10)
     print(cart)
+    if cart is None:
+        raise not_found_404_excep(detail=f"There is NO Current Cart for User with  {user.id = } ...!")
     return cart

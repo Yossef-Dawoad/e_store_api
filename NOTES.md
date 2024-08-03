@@ -114,7 +114,7 @@ Take a quick look at Using Asyncio with Alembic while the new images are buildin
 Once the containers are back up, initialize Alembic with the async template:
 
 ```bash
-$ docker-compose exec web alembic init -t async migrations
+$ docker-compose exec app alembic init -t async migrations
 ```
 
 Within the generated "project/migrations" folder, import SQLModel into script.py.mako, a Mako template file:
@@ -193,7 +193,7 @@ sqlalchemy.url = postgresql+asyncpg://postgres:postgres@db:5432/foo
 To generate the first migration file, run:
 
 ```bash
-$ docker-compose exec web alembic revision --autogenerate -m "init"
+$ docker-compose exec app alembic revision --autogenerate -m "init"
 ```
 
 If all went well, you should see a new migration file in "project/migrations/versions" that looks something like this:
@@ -236,12 +236,12 @@ def downgrade() -> None:
 Apply the migration:
 
 ```bash
-$ docker-compose exec web alembic upgrade head
+$ docker-compose exec app alembic upgrade head
 ```
 
 Create a new migration file:
 ```bash
-$ docker-compose exec web alembic revision --autogenerate -m "add year"
+$ docker-compose exec app alembic revision --autogenerate -m "add year"
 ```
 
 Update the route handlers:

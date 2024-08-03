@@ -5,9 +5,7 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from e_store.db import get_session
-from e_store.users.models.user import User, UserCreate, UserPublic, UserUpdate
-from e_store.users.services import create_new_user, update_existing_user
-from e_store.users.validator import verify_email_exists
+from e_store.users.models.user import User, UserPublic, UserUpdate
 
 router = APIRouter(tags=["Users"], prefix="/users")
 
@@ -20,8 +18,7 @@ async def read_users(  # noqa: ANN201
     limit: int = Query(default=100, le=100),
 ):
     stmt = select(User).offset(offset).limit(limit)
-    users = (await session.exec(stmt)).all()
-    return users
+    return (await session.exec(stmt)).all()
 
 
 @router.get("/{user_id}", response_model=UserPublic)
@@ -42,12 +39,17 @@ async def update_user(  # noqa: ANN201
     user_id: int,
     user: UserUpdate,
 ):
-    db_user = await session.get(User, user_id)
-    if not db_user:
+    curr_user = await session.get(User, user_id)
+    if not curr_user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    db_user = await update_existing_user(user, session)
-    return db_user
+    user_update_data = user.model_dump(exclude_unset=True)
+    curr_user.sqlmodel_update(user_update_data)
+    session.add(curr_user)
+    await session.commit()
+    await session.refresh(curr_user)
+
+    return curr_user
 
 
 @router.delete("/{user_id}", status_code=204)
