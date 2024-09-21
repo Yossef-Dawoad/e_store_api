@@ -2,6 +2,34 @@
 pip install fastapi[all]
 pip install psycopg[binary,pool]
 
+### Docker tutorial
+#### building & running docker-compose
+docker-compose up --build
+
+#### running only one service of docker-compose
+docker-compose up service-name(db)
+```bash
+$ docker-compose exec app alembic revision --autogenerate -m "init"
+```
+
+
+#### if you want run deatched docker containers
+```bash
+# show all existing Containers with there STATUS Created | UP
+docker ps -a
+
+## RE-Attach or Listen to logs
+docker-compose up
+# OR
+docker-compose logs 
+
+```
+
+#### shuting down docker-compose
+```bash
+docker-compose down -v
+```
+
 
 ### Auth Setting and Variables
 secret_key: str
@@ -14,33 +42,18 @@ REFRESH_TOKEN_EXPIRE_TIME: int
 poetry export -f requirements.txt --output requirements.txt
 
 
-### building & running docker-compose
-docker-compose up --build
 
-### running only one service of docker-compose
-docker-compose up service-name(db)
 
-### shuting down docker-compose
-```bash
-docker-compose down -v
-```
+
+
+
 
 Ctrl+p, Ctrl+q will now turn interactive mode into daemon mode.  
 Ctrl+C (or Ctrl+\) should detach you from the container but it will kill the container because your main process is a bash.
 see this issue [here](https://stackoverflow.com/questions/25267372/correct-way-to-detach-from-a-container-without-stopping-it)
 
 
-### if you want run deatched docker containers
-```bash
-# show all existing Containers with there STATUS Created | UP
-docker ps -a
 
-## RE-Attach or Listen to logs
-docker-compose up
-# OR
-docker-compose logs 
-
-```
 
 ## Generate powerful secrets
 ```BASH

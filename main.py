@@ -25,12 +25,12 @@ app = FastAPI(
 )
 
 
+app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(category_router)
 app.include_router(products_router)
 app.include_router(cart_router)
 app.include_router(order_router)
-app.include_router(auth_router)
 
 
 @app.get("/health-check")

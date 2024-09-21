@@ -6,8 +6,6 @@ from e_store.orders.models import Order, OrderDetail, OrderPublic
 from e_store.shared.exceptions.http_400s import bad_400_excep
 from e_store.users.models.user import User
 
-from . import tasks
-
 
 async def create_new_order(session: AsyncSession) -> OrderPublic:
     # Getting User Info with his email

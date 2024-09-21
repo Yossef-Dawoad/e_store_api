@@ -4,10 +4,9 @@ from fastapi.background import BackgroundTasks
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
 from pydantic import BaseModel, EmailStr
 
-from e_store.config import get_mail_settings, get_settings
+from e_store.config import get_mail_settings
 
-settings = get_settings()
-email_settrings = get_mail_settings()
+email_settings = get_mail_settings()
 
 
 class EmailSchema(BaseModel):
@@ -15,14 +14,14 @@ class EmailSchema(BaseModel):
 
 
 conf = ConnectionConfig(
-    **email_settrings.model_dump(),
+    **email_settings.model_dump(),
     TEMPLATE_FOLDER=Path(__file__).parent.joinpath("templates"),
 )
 
 fm = FastMail(conf)
 
 
-async def send_email(
+def send_email(
     recipients: list[EmailStr],
     subject: str,
     context: dict,

@@ -40,7 +40,6 @@ async def login(
 
 @router.post(
     "/signup",
-    response_model=UserPublic,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_user_acc(

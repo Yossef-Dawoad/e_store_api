@@ -11,10 +11,10 @@ from jwt.exceptions import InvalidTokenError
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlmodel import select
 
+from e_store.authentication.hashing import verify_password
 from e_store.config import get_settings
 from e_store.db import get_session
 from e_store.shared.exceptions.http_400s import bad_400_excep, unauthorized_401_excep
-from e_store.users.hashing import verify_password
 from e_store.users.models.user import User
 
 from .schemas import TokenData

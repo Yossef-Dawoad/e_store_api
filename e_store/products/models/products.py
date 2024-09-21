@@ -24,7 +24,7 @@ class Product(ProductBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
     category: Optional["Category"] = Relationship(back_populates="products")
-    cart_items: list["CartItem"] = Relationship(back_populates="products")
+    cart_items: list["CartItem"] = Relationship(back_populates="product")
     order_detail: Optional["OrderDetail"] = Relationship(back_populates="product")
 
 
