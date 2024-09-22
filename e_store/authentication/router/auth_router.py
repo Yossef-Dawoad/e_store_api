@@ -41,6 +41,7 @@ async def login(
 @router.post(
     "/signup",
     status_code=status.HTTP_201_CREATED,
+    # callbacks=[]
 )
 async def create_user_acc(
     user: UserCreate,
