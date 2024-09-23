@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from e_store.config import get_settings
-from e_store.db import get_session, init_db
+from e_store.db import get_session
 from main import app
 
 settings = get_settings()

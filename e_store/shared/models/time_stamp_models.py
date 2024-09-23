@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlmodel import DateTime, Column, Field, SQLModel, func
+from sqlmodel import Column, DateTime, Field, SQLModel, func
 
 
 class SimpleTimeStamp(SQLModel):

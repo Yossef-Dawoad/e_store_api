@@ -28,7 +28,7 @@ class MailSettings(BaseSettings):
     MAIL_SSL_TLS: bool
 
     MAIL_FROM: str
-    # MAIL_DEBUG: bool
+    MAIL_DEBUG: bool
     MAIL_FROM_NAME: str = "estore-app"
     USE_CREDENTIALS: bool  # set true for prod
 
