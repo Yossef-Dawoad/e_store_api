@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int
     algorithm: str
 
+    FRONTEND_HOST: str = "localhost:3000"
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 

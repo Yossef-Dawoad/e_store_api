@@ -2,6 +2,14 @@
 pip install fastapi[all]
 pip install psycopg[binary,pool]
 
+### Authenticated User
+```json
+{
+  "username": "ahmed zweal", 
+  "email": "ahmedzweal@nasa.com",
+  "password": "Nasa456++"
+}
+```
 ### Docker tutorial
 #### building & running docker-compose
 docker-compose up --build
@@ -124,6 +132,8 @@ $ docker-compose down -v
 ```
 Take a quick look at Using Asyncio with Alembic while the new images are building.
 
+
+## ASYNC Almebic migration 
 Once the containers are back up, initialize Alembic with the async template:
 
 ```bash

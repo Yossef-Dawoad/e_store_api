@@ -15,3 +15,8 @@ class TokenData(BaseModel):
 class LogInUser(BaseModel):
     username: str
     password: str
+
+
+class UserAccountVerify(BaseModel):
+    token: str
+    email: str

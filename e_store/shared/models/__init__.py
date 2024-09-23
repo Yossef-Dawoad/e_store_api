@@ -1,10 +1,10 @@
-from .time_stamp_model import EventTimestamp, SimpleTimeStamp, TimestampModel
+from .time_stamp_models import CreateUpdateAtTimestamp, EventTimestamp, SimpleTimeStamp
 from .unique_model import SimpleIDModel, UUIDIDModel
 
 __all__ = [
+    "CreateUpdateAtTimestamp",
     "EventTimestamp",
-    "SimpleTimeStamp",
-    "TimestampModel",
     "SimpleIDModel",
+    "SimpleTimeStamp",
     "UUIDIDModel",
 ]
